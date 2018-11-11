@@ -5,12 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/home")
 public class DemoController {
 
     @RequestMapping("/demo")
     public String demo() {
-        return "/resources/index.html";
+        return "/index.html";
     }
 
     @RequestMapping("/test")
