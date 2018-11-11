@@ -1,4 +1,4 @@
-package com.elliot.fastdfsserver.fdfs;
+package com.elliot.fastdfssample.fdfs;
 
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;

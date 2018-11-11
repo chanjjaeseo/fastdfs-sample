@@ -1,4 +1,4 @@
-package com.elliot.fastdfsserver.fdfs;
+package com.elliot.fastdfssample.fdfs;
 
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
@@ -16,11 +16,13 @@ public class TrackerServerPool {
 
     private static Logger logger = LoggerFactory.getLogger(TrackerServerPool.class);
 
-    private static final String FASTDFS_CONFIG_PATH = null;
+    private static final String FASTDFS_CONFIG_PATH = "fastdfs-client.properties";
 
     private static GenericObjectPool<TrackerServer> trackerServerPool;
 
-    private static int maxStorageConnection = 3;
+    private final static int maxStorageConnection = 3;
+
+    private final static int minIdle = 3;
 
     static {
         try {
@@ -43,17 +45,15 @@ public class TrackerServerPool {
     }
 
     private static void initPool(GenericObjectPoolConfig poolConfig) {
-        poolConfig.setMinIdle(2);
-        if(maxStorageConnection > 0){
-            poolConfig.setMaxTotal(maxStorageConnection);
-        }
+        poolConfig.setMinIdle(minIdle);
+        poolConfig.setMaxTotal(maxStorageConnection);
     }
 
     public static GenericObjectPool<TrackerServer> getObjectPool(){
         return trackerServerPool;
     }
 
-    public TrackerServer getTrckerServerFromPool() {
+    public static synchronized TrackerServer borrowTrckerServerFromPool() {
         TrackerServer trackerServer = null;
         try {
             trackerServer =  getObjectPool().borrowObject();
@@ -61,6 +61,10 @@ public class TrackerServerPool {
             logger.error("can`t get tracker server from object pool");
         }
         return trackerServer;
+    }
+
+    public static synchronized void returnTrackerServer(TrackerServer trackerServer) {
+        getObjectPool().returnObject(trackerServer);
     }
 
 }

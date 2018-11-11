@@ -1,4 +1,4 @@
-package com.elliot.fastdfsserver;
+package com.elliot.fastdfssample;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +11,7 @@ public class FastdfsServerApplicationTests {
 
 	@Test
 	public void contextLoads() {
+
 	}
 
 }
