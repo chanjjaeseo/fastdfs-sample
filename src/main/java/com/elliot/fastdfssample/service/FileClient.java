@@ -7,15 +7,12 @@ import com.elliot.fastdfssample.common.util.FileHelper;
 import com.elliot.fastdfssample.common.util.MapConverter;
 import com.elliot.fastdfssample.config.Gloabls;
 import com.elliot.fastdfssample.fdfs.TrackerServerPool;
-import com.sun.tools.hat.internal.parser.ReadBuffer;
-import org.csource.common.MyException;
 import org.csource.common.NameValuePair;
 import org.csource.fastdfs.StorageClient1;
 import org.csource.fastdfs.TrackerServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,8 +26,6 @@ import java.util.Map;
 public class FileClient implements FileOperation{
 
     private static Logger logger = LoggerFactory.getLogger(FileHelper.class);
-
-    private final static long maxSize = 1024 * 1024;
 
     @Autowired
     private Gloabls gloabls;
