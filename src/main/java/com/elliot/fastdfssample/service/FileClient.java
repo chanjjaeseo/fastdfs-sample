@@ -38,28 +38,19 @@ public class FileClient implements FileOperation{
         StorageClient1 storageClient = new StorageClient1(trackerServer, null);
         String extensionName = FileHelper.getFileExtension(path);
         response.addHeader("Content-Disposition", "attachment;filename=test." + extensionName);
-        response.setContentType("application/octet-stream");
+        response.setContentType("application/x-download");
+//        response.setContentType("application/octet-stream");
         try {
 
             byte[] fileBytes = storageClient.download_file1(path);
             TrackerServerPool.returnTrackerServer(trackerServer);
             if (fileBytes != null && fileBytes.length > 0) {
-                outputByteFiles(response, fileBytes);
+                FileHelper.copyStream(response.getOutputStream(),
+                        new ByteArrayInputStream(fileBytes), 128 * 1024);
             }
         } catch (Exception e) {
             logger.error("download file error", e);
         }
-    }
-
-    private void outputByteFiles(HttpServletResponse response, byte[] fileBytes) throws IOException {
-        InputStream is = new ByteArrayInputStream(fileBytes);
-        OutputStream os = response.getOutputStream();
-        byte[] byteBuffer = new byte[1024 * 128];
-        while (is.read(byteBuffer) > 0) {
-            os.write(byteBuffer);
-        }
-        os.flush();
-        os.close();
     }
 
     public OperationResult deleteFile(String path) {

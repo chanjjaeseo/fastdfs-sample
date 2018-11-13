@@ -5,6 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 @Service
 public class FileHelper {
 
@@ -29,6 +33,15 @@ public class FileHelper {
             logger.error("file type is not suport, file name is {}", originName);
         }
         return fileExtension;
+    }
+
+    public static void copyStream(OutputStream os, InputStream is, int bufferSize) throws IOException {
+        byte[] byteBuffer = new byte[bufferSize];
+        while (is.read(byteBuffer) > 0) {
+            os.write(byteBuffer);
+        }
+        os.flush();
+        os.close();
     }
 
     public static void main(String[] args) {
